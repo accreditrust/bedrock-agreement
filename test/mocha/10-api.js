@@ -14,7 +14,7 @@ var mockData = require('./mock.data');
 var uuid = require('uuid').v4;
 
 describe('bedrock-agreement', function() {
-  describe('accept API', function() {
+  describe.only('accept API', function() {
     beforeEach(function(done) {
       helpers.removeCollection('eventLog', done);
     });
@@ -96,7 +96,25 @@ describe('bedrock-agreement', function() {
         done();
       });
     });
-    it('returns an error if agreements is not a string or array');
+    it('returns an error if agreements is not a string or array', function(done) {
+      var agreements = uuid();
+      var agreementsarray = [];
+      for(var i = 0; i < 4; i++) {
+        agreementsarray.push(uuid());
+      }
+      var actor = mockData.identities.regularUser.identity;
+      brAgreement.accept(actor, agreements, function(err) {
+        should.not.exist(err);
+        should.exist(agreements);
+        agreements.should.be.a('string');
+      });
+      brAgreement.accept(actor, agreementsarray, function(err) {
+        should.not.exist(err);
+        should.exist(agreementsarray);
+        agreementsarray.should.be.an('array');
+        done();
+      });
+    });
     it('returns an error if actor is not a valid identity');
   }); // end add
 
