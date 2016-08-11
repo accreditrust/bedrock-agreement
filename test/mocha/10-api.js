@@ -96,23 +96,22 @@ describe('bedrock-agreement', function() {
         done();
       });
     });
-    it.skip(
+    it(
     'returns an error if agreements is not a string or array', function(done) {
       var agreements = null; // agreement that is neither a string or an array
-      brAgreement.accept(null, agreements, function(err) {
-        console.log('$$$$$$', err); // debug: prints error
+      var actor = mockData.identities.regularUser.identity;
+      brAgreement.accept(actor, agreements, function(err) {
         should.exist(err);
-        err.name.should.equal(
-          'agreements parameter must be a string or an array.');
+        err.toString().should.equal(
+          'TypeError: agreements parameter must be a string or an array.');
         done();
       });
     });
     it('returns an error if actor is not a valid identity', function(done) {
       var agreements = null; // agreement that is neither a string or an array
       brAgreement.accept(null, agreements, function(err) {
-        console.log('$$$$$$', err); // debug: prints error
         should.exist(err);
-        err.name.should.equal(
+        err.toString().should.equal(
           'TypeError: actor must be an object with an "id" property.');
         done();
       });
