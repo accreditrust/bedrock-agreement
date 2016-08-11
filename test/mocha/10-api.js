@@ -14,7 +14,7 @@ var mockData = require('./mock.data');
 var uuid = require('uuid').v4;
 
 describe('bedrock-agreement', function() {
-  describe.only('accept API', function() {
+  describe('accept API', function() {
     beforeEach(function(done) {
       helpers.removeCollection('eventLog', done);
     });
@@ -223,6 +223,16 @@ describe('bedrock-agreement', function() {
         err.name.should.equal('PermissionDenied');
         err.details.sysPermission.should.equal('AGREEMENT_ACCESS');
         done();
+      });
+    });
+    it('returns an error if actor is not a valid identity', function(done) {
+      var actor = null;
+      var id = mockData.identities.regularUser.identity.id;
+      brAgreement.getAccepted(actor, id, function(err) {
+        should.exist(err);
+        err.toString().should.equal(
+          'TypeError: actor must be an object with an "id" property.');
+        done();       
       });
     });
   }); // end get
