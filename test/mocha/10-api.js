@@ -96,22 +96,14 @@ describe('bedrock-agreement', function() {
         done();
       });
     });
-    it('returns an error if agreements is not a string or array', function(done) {
-      var agreements = uuid();
-      var agreementsarray = [];
-      for(var i = 0; i < 4; i++) {
-        agreementsarray.push(uuid());
-      }
+    it(
+    'returns an error if agreements is not a string or array', function(done) {
+      var agreements = null;
       var actor = mockData.identities.regularUser.identity;
       brAgreement.accept(actor, agreements, function(err) {
-        should.not.exist(err);
-        should.exist(agreements);
-        agreements.should.be.a('string');
-      });
-      brAgreement.accept(actor, agreementsarray, function(err) {
-        should.not.exist(err);
-        should.exist(agreementsarray);
-        agreementsarray.should.be.an('array');
+        should.exist(err);
+        err.name.should.equal(
+          'agreements parameter must be a string or an array.');
         done();
       });
     });
