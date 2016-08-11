@@ -123,6 +123,22 @@ describe('bedrock-agreement', function() {
       helpers.removeCollection('eventLog', done);
     });
 
+    it.only('returns no agreement from no events', function(done) {
+      var actor = mockData.identities.regularUser.identity;
+      async.auto({
+        getAccepted: function(callback) {
+          brAgreement.getAccepted(actor, actor.id, callback);
+        },
+        test: ['getAccepted', function(callback, results) {
+          var result = results.getAccepted;
+          result.should.be.an('array');
+          result.should.have.length(0);
+          callback();
+        }]
+      }, done);
+    });
+
+    
     it('returns one agreement from one event', function(done) {
       var agreements = uuid();
       var actor = mockData.identities.regularUser.identity;
