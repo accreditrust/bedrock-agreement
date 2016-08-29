@@ -123,7 +123,7 @@ describe('bedrock-agreement', function() {
       helpers.removeCollection('eventLog', done);
     });
 
-    it.only('returns no agreement from no events', function(done) {
+    it('returns no agreement from no events', function(done) {
       var actor = mockData.identities.regularUser.identity;
       async.auto({
         getAccepted: function(callback) {
@@ -137,8 +137,6 @@ describe('bedrock-agreement', function() {
         }]
       }, done);
     });
-
-    
     it('returns one agreement from one event', function(done) {
       var agreements = uuid();
       var actor = mockData.identities.regularUser.identity;
